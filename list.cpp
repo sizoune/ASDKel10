@@ -1,12 +1,11 @@
 #include "list.h"
 
-
 using namespace std;
 
-void createList(List &L)
+void createList(List *L)
 {
-    First(L) = nil;
-    Last(L) = nil;
+    First(*L) = nil;
+    Last(*L) = nil;
 }
 
 address alokasi(infotype x)
@@ -18,99 +17,107 @@ address alokasi(infotype x)
     return P;
 }
 
-void dealokasi(address &P)
+void dealokasi(address *p)
 {
-    delete P;
+    delete *p;
 }
 
-void insertFirst(List &L, address P)
+void insertFirst(List *L, address p)
 {
-    if (First(L) == nil)
+    if (First(*L) == nil)
     {
-        First(L) = P;
-        Last(L) = P;
+        First(*L) = p;
+        Last(*L) = p;
     }
     else
     {
-        Next(P) = First(L);
-        Prev(First(L)) = P;
-        First(L) = P;
+        Next(p) = First(*L);
+        Prev(First(*L)) = p;
+        First(*L) = p;
     }
 }
 
-void insertLast(List &L, address P)
+void insertLast(List *L, address p)
 {
-    if (First(L) == nil)
+    if (First(*L) == nil)
     {
-        First(L) = P;
-        Last(L) = P;
+        First(*L) = p;
+        Last(*L) = p;
     }
     else
     {
-        Next(Last(L)) = P;
-        Prev(P) = Last(L);
-        Last(L) = P;
+        Next(Last(*L)) = p;
+        Prev(p) = Last(*L);
+        Last(*L) = p;
     }
 }
 
-void deleteFirst(List &L, address &P)
+
+void deleteFirst(List *L, address *p)
 {
-    if (First(L) == nil)
+    if (First(*L) == nil)
     {
         cout<<"List Masih Kosong";
     }
-    else if (First(L) == Last(L))
+    else if (First(*L) == Last(*L))
     {
-        P = First(L);
-        First(L) = nil;
-        Last(L) = nil;
+        *p = First(*L);
+        First(*L) = nil;
+        Last(*L) = nil;
     }
     else
     {
-        P = First(L);
-        First(L) = Next(P);
-        Prev(First(L)) = nil;
-        Next(P) = nil;
+        *p = First(*L);
+        First(*L) = Next(*p);
+        Prev(First(*L)) = nil;
+        Next(*p) = nil;
     }
 }
 
-void deleteLast(List &L, address &P)
+void deleteLast(List *L, address *p)
 {
-    if (First(L) == nil)
+    if (First(*L) == nil)
     {
         cout<<"List Masih Kosong";
     }
-    else if (First(L) == Last(L))
+    else if (First(*L) == Last(*L))
     {
-        P = First(L);
-        First(L) = nil;
-        Last(L) = nil;
+        *p = First(*L);
+        First(*L) = nil;
+        Last(*L) = nil;
     }
     else
     {
-        P = Last(L);
-        Last(L) = Prev(P);
-        Next(Last(L)) = nil;
-        Prev(P) = nil;
+        *p = Last(*L);
+        Last(*L) = Prev(*p);
+        Next(Last(*L)) = nil;
+        Prev(*p) = nil;
     }
 }
-
 
 address findElm(List L, infotype x)
 {
     address bantu = First(L);
+    int a = 0;
 
     do
     {
         if (strcmp(Info(bantu).id,x.id) == 0)
         {
-            return bantu;
+            a = 1;
             break;
         }
         bantu = Next(bantu);
     }
-    while (bantu != Last(L));
-    return nil;
+    while (bantu != nil);
+    if (a == 1)
+    {
+        return bantu;
+    }
+    else
+    {
+        return nil;
+    }
 }
 
 void printinfo (List L)
@@ -125,11 +132,12 @@ void printinfo (List L)
     {
         do
         {
-            cout<<"\nID      : "<<Info(bantu).id<<endl
-                <<"Nama    : "<<Info(bantu).nama<<endl
-                <<"Jabatan : "<<Info(bantu).jab<<endl
-                <<"Umur    : "<<Info(bantu).umur<<endl
-                <<"Hobi    : "<<Info(bantu).hobi<<endl;
+            cout<<"ID      : "<<Info(bantu).id<<endl;
+            cout<<"Nama    : "<<Info(bantu).nm<<endl;
+            cout<<"Jabatan : "<<Info(bantu).jb<<endl;
+            cout<<"Umur    : "<<Info(bantu).um<<endl;
+            cout<<"Hobi    : "<<Info(bantu).hb<<endl;
+            cout<<"\n";
             bantu = Next(bantu);
         }
         while (bantu != nil);
