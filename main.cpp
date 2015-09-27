@@ -13,19 +13,19 @@ void inputData ()
     cout<<"Masukkan ID : ";
     cin>>x.id;
     cout<<"Masukkan Nama : ";
-    cin>>x.nama;
+    cin>>x.nm;
     cout<<"Masukkan Jabatan : ";
-    cin>>x.jab;
+    cin>>x.jb;
     cout<<"Masukkan Umur : ";
-    cin>>x.umur;
+    cin>>x.um;
     cout<<"Masukkan Hobi : ";
-    cin>>x.hobi;
+    cin>>x.hb;
 }
 
 
 int main()
 {
-   createList(l);
+   createList(&l);
    do
    {
        system("cls");
@@ -45,7 +45,7 @@ int main()
             system("cls");
             inputData();
             p = alokasi(x);
-            insertFirst(l,p);
+            insertFirst(&l,p);
             cout<<"Insert First Sukses";
             getch();
             break;
@@ -53,21 +53,21 @@ int main()
             system("cls");
             inputData();
             p = alokasi(x);
-            insertLast(l,p);
+            insertLast(&l,p);
             cout<<"Insert Last Sukses";
             getch();
             break;
         case 3:
             system("cls");
-            deleteFirst(l,p);
-            dealokasi(p);
+            deleteFirst(&l,&p);
+            dealokasi(&p);
             cout<<"Delete Sukses";
             getch();
             break;
         case 4:
             system("cls");
-            deleteLast(l,p);
-            dealokasi(p);
+            deleteLast(&l,&p);
+            dealokasi(&p);
             cout<<"Delete Sukses";
             getch();
             break;
@@ -83,10 +83,10 @@ int main()
             p = findElm(l,x);
             if (p != nil)
             {
-                cout<<"\nNama    : "<<Info(p).nama<<endl
-                    <<"Jabatan : "<<Info(p).jab<<endl
-                    <<"Umur    : "<<Info(p).umur<<endl
-                    <<"Hobi    : "<<Info(p).hobi<<endl;
+                cout<<"\nNama    : "<<Info(p).nm<<endl;
+                cout<<"Jabatan : "<<Info(p).jb<<endl;
+                cout<<"Umur    : "<<Info(p).um<<endl;
+                cout<<"Hobi    : "<<Info(p).hb<<endl;
             }
             else
             {
@@ -103,4 +103,3 @@ int main()
    }
    while (pil != 7);
 }
-
