@@ -3,180 +3,135 @@
 
 using namespace std;
 
-void createlist (list *l)
+void createList(List &L)
 {
-    first(*l) = nil;
+    First(L) = nil;
+    Last(L) = nil;
 }
 
-void inputdata (infotype *x)
+address alokasi(infotype x)
 {
-    cout<<"ID Mobil : ";
-    cin>>(*x).id;
-    cout<<"Nama Mobil : ";
-    cin>>(*x).nama;
-    cout<<"Warna Mobil : ";
-    cin>>(*x).warna;
-    cout<<"Jenis Mobil : ";
-    cin>>(*x).jenis;
-    cout<<"Tahun Keluar Mobil : ";
-    cin>>(*x).thnklr;
-    cout<<"Nama Pemilik Mobil : ";
-    cin>>(*x).namapem;
+    address P = new elemenList;
+    Info(P) = x;
+    Next(P) = nil;
+    Prev(P) = nil;
+    return P;
 }
 
-void dealokasi (address p)
+void dealokasi(address &P)
 {
-    free(p);
+    delete P;
 }
 
-address alokasi (infotype x)
+void insertFirst(List &L, address P)
 {
-    address p;
-    p = (address) malloc (sizeof(elmlist));
-    info(p) = x;
-    next(p) = nil;
-    return p;
-}
-
-void insertfirst (list *l, address p)
-{
-    if (first(*l) == nil)
+    if (First(L) == nil)
     {
-        first(*l) = p;
+        First(L) = P;
+        Last(L) = P;
     }
     else
     {
-        next(p) = first(*l);
-        first(*l) = p;
+        Next(P) = First(L);
+        Prev(First(L)) = P;
+        First(L) = P;
     }
 }
 
-void insertlast (list *l, address p)
+void insertLast(List &L, address P)
 {
-    address q;
-
-    if (first(*l) == nil)
+    if (First(L) == nil)
     {
-        first(*l) = p;
+        First(L) = P;
+        Last(L) = P;
     }
     else
     {
-        q = first(*l);
-        while (next(q) != nil)
+        Next(Last(L)) = P;
+        Prev(P) = Last(L);
+        Last(L) = P;
+    }
+}
+
+void deleteFirst(List &L, address &P)
+{
+    if (First(L) == nil)
+    {
+        cout<<"List Masih Kosong";
+    }
+    else if (First(L) == Last(L))
+    {
+        P = First(L);
+        First(L) = nil;
+        Last(L) = nil;
+    }
+    else
+    {
+        P = First(L);
+        First(L) = Next(P);
+        Prev(First(L)) = nil;
+        Next(P) = nil;
+    }
+}
+
+void deleteLast(List &L, address &P)
+{
+    if (First(L) == nil)
+    {
+        cout<<"List Masih Kosong";
+    }
+    else if (First(L) == Last(L))
+    {
+        P = First(L);
+        First(L) = nil;
+        Last(L) = nil;
+    }
+    else
+    {
+        P = Last(L);
+        Last(L) = Prev(P);
+        Next(Last(L)) = nil;
+        Prev(P) = nil;
+    }
+}
+
+
+address findElm(List L, infotype x)
+{
+    address bantu = First(L);
+
+    do
+    {
+        if (strcmp(Info(bantu).id,x.id) == 0)
         {
-            q = next(q);
-        }
-        next(q) = p;
-    }
-}
-/*void insertafter (list *l, address p, address prec)
-{
-    next(p) = next(prec);
-    next(prec) = p;
-}*/
-
-void deletefirst (list *l, address *p)
-{
-    if (first(*l) == nil)
-    {
-        cout<<"List Kosong";
-    }
-    else if (next(first(*l)) == nil)
-    {
-        *p=first(*l);
-        first(*l) = nil;
-        dealokasi(*p);
-    }
-    else
-    {
-        *p = first(*l);
-        first(*l) = next(first(*l));
-        next(*p) = nil;
-        dealokasi(*p);
-    }
-}
-
-void deletelast (list *l, address *p)
-{
-    address q;
-
-    if (first(*l) == nil)
-    {
-        cout<<"List Kosong";
-    }
-    else if (next(first(*l)) == nil)
-    {
-        *p=first(*l);
-        first(*l) = nil;
-        dealokasi(*p);
-    }
-    else
-    {
-        q=first(*l);
-        while (next(next(q)) != nil)
-        {
-            q=next(q);
-        }
-        *p = next(q);
-        next(q) = nil;
-        dealokasi(*p);
-    }
-}
-/*void deleteafter (list *l, address *p, address prec)
-{
-    *p = next(prec);
-    next(prec) = next(*p);
-    next(*p) = nil;
-    dealokasi(*p);
-}*/
-
-address searchelement(list l, infotype x)
-{
-    address p;
-    int a=0;
-
-    p=first(l);
-    while ( p != nil)
-    {
-        if (strcmp(info(p).id,x.id) == 0)
-        {
-            a = 1;
+            return bantu;
             break;
         }
-        else
-        {
-            p = next(p);
-        }
+        bantu = Next(bantu);
     }
-    if (a != 1)
-    {
-        p = nil;
-    }
-    return p;
+    while (bantu != Last(L));
+    return nil;
 }
 
-void viewlist (list l)
+void printinfo (List L)
 {
-    address p;
+    address bantu = First(L);
 
-    p = first(l);
-    if (p == nil)
+    if (First(L) == nil)
     {
-        cout<<"List masih kosong";
+        cout<<"List Kosong";
     }
     else
     {
-        while (p != nil)
+        do
         {
-            cout<<"\n"<<info(p).id<<", ";
-            cout<<info(p).nama<<", ";
-            cout<<info(p).warna<<", ";
-            cout<<info(p).jenis<<", ";
-            cout<<info(p).thnklr<<", ";
-            cout<<info(p).namapem;
-            p = next(p);
+            cout<<"\nID      : "<<Info(bantu).id<<endl
+                <<"Nama    : "<<Info(bantu).nama<<endl
+                <<"Jabatan : "<<Info(bantu).jab<<endl
+                <<"Umur    : "<<Info(bantu).umur<<endl
+                <<"Hobi    : "<<Info(bantu).hobi<<endl;
+            bantu = Next(bantu);
         }
+        while (bantu != nil);
     }
-
-
 }
